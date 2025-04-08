@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#This will copy a file, showing the date
+#to the end of the file name
+formatted_date=$(date +%d.%m.%Y)
+echo "This is the current date.:" $formatted_date
+#used for copying the file for backup. 
+cp -ivr /home/ubuntu/vpn /backups/vpn/vpn.$formatted_date
+#used for zipping the backup and deleting the unzipped backup
+tar -czvf /backups/vpn/vpn.$formatted_date.tar.gz /backups/vpn/vpn.$formatted_date
+
+rm -r /backups/vpn/vpn.$formatted_date
+#in order to delete backups after 1 week
+
+find /backups/vpn/* -maxdepth 1 -type f -mtime +7 -exec rm -r {} \;
